@@ -6,14 +6,15 @@ const CHUNK_HEIGHT = 250
 const CHUNK_MARGINS = 50
 const CHUNK_X_OFFSET = -(CHUNK_WIDTH - SCREEN_WIDTH) / 2
 const CHANGE_INTERVAL = 50
+const TRANSITION_CHUNKS = 20
 const CENTER_CHANGE_VARIANCE = 25
 const WIDTH_NOISE_VARIANCE = 25
-const WIDTH_MIN = 90
+const WIDTH_MIN = 100
 const WIDTH_MAX = 300
 const WIDTH_START = 450
 
 const FALL_SPEED_START = 300
-const FALL_SPEED_MAX = 800
+const FALL_SPEED_MAX = 1000
 const PIXELS_PER_DEPTH_UNIT = 50
 
 const SAVE_FILE = "user://save.dat"
@@ -25,13 +26,31 @@ const Missile = preload("res://player/Missile.tscn")
 const Explosion = preload("res://player/Explosion.tscn")
 const PowerUp = preload("res://level/PowerUp.tscn")
 
+const Sounds = {
+	"rollover": preload("res://audio/rollover.wav"),
+	"click": preload("res://audio/click.wav"),
+	"boop1": preload("res://audio/boop1.wav"),
+	"boop2": preload("res://audio/boop2.wav"),
+	"explode": preload("res://audio/explode.wav"),
+	"fire": preload("res://audio/fire.wav"),
+	"powerup_gold": preload("res://audio/powerup_gold.wav"),
+	"powerup_missile": preload("res://audio/powerup_missile.wav"),
+	"powerup_shield": preload("res://audio/powerup_shield.wav"),
+	"powerup_slow": preload("res://audio/powerup_slow.wav")
+}
+
 var noise := OpenSimplexNoise.new()
 var rng := RandomNumberGenerator.new()
 
 var first_run = true
+var collected_slow = false
+var collected_missile = false
+var using_controller = false
+var device = 0
 var gold = 0
 var last_depth = 0
 var max_depth = 0
+var last_texture = null
 
 var slow_time = 0
 var missiles = 0
@@ -54,6 +73,9 @@ var powerups = {
 	PowerUpType.GOLD_MULT: 2
 }
 
+var music_player
+var audio_players = []
+
 func _init():
 	load_game()
 
@@ -64,6 +86,16 @@ func _ready():
 		var e = Expression.new()
 		e.parse(upgrades[up], ["level"])
 		upgrades[up] = e
+
+	music_player = AudioStreamPlayer.new()
+	music_player.bus = "Music"
+	music_player.stream = preload("res://audio/music.ogg")
+	add_child(music_player)
+	for i in 10:
+		var audio = AudioStreamPlayer.new()
+		audio.bus = "SFX"
+		add_child(audio)
+		audio_players.append(audio)
 
 func noise_1d(v):
 	#return 0
@@ -101,3 +133,13 @@ func rand_weighted(options):
 			return option
 	return options.keys()[0]
 	
+func play_music():
+	if not music_player.playing:
+		music_player.play()
+	
+func play_audio(sound):
+	for a in audio_players:
+		if not a.playing:
+			a.stream = Sounds[sound]
+			a.play()
+			return

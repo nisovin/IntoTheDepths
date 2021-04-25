@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/boop2.wav-0a5f71baa88bdc2369ef3baaa26f8167.sample"
+
+[deps]
+
+source_file="res://audio/boop2.wav"
+dest_files=[ "res://.import/boop2.wav-0a5f71baa88bdc2369ef3baaa26f8167.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

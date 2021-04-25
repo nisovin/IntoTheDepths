@@ -19,11 +19,11 @@ func bounce(b):
 func _physics_process(delta):
 	if not dead:
 		position += velocity * delta
-		if position.y > 1024 or position.y < 0:
+		if position.y > 1200 or position.y < 0:
 			dead = true
 			queue_free()
 
-func _on_Missile_area_entered(area):
+func _on_Missile_area_entered(_area):
 	if not dead:
 		emit_signal("hit", global_position, velocity, bounces)
 		dead = true

@@ -1,5 +1,8 @@
 extends CanvasLayer
 
+onready var countdown = $Countdown
+onready var hint = $Hint
+onready var text_tween = $TextTween
 onready var slow_time_progress = $SlowTime
 onready var slow_time_label = $SlowTime/Label
 onready var slow_time_tween = $SlowTimeTween
@@ -19,6 +22,20 @@ func _ready():
 		missiles_label.hide()
 		shields_label.hide()
 		multiplier_label.hide()
+	countdown.modulate.a = 0
+
+func show_countdown(c):
+	countdown.text = str(c) if c > 0 else "GO!"
+	text_tween.interpolate_property(countdown, "modulate:a", 1, 0, 0.7, Tween.TRANS_CUBIC, Tween.EASE_IN)
+	text_tween.start()
+
+func show_hint(text):
+	hint.modulate.a = 0
+	hint.text = text
+	text_tween.interpolate_property(hint, "modulate:a", 0, 1, 0.5)
+	text_tween.interpolate_property(hint, "modulate:a", 1, 0, 1, Tween.TRANS_CUBIC, Tween.EASE_IN, 5)
+	text_tween.start()
+	
 
 func update_slow_time(value, tween):
 	if tween:

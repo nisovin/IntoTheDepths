@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/av826a49819cd77dc3fdf.jpg-2bfa83811a9833005196f19df55953db.stex"
+path="res://.import/stone1.png-253571d7b4237d89507af03ca7f81a7e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://av826a49819cd77dc3fdf.jpg"
-dest_files=[ "res://.import/av826a49819cd77dc3fdf.jpg-2bfa83811a9833005196f19df55953db.stex" ]
+source_file="res://level/stone1.png"
+dest_files=[ "res://.import/stone1.png-253571d7b4237d89507af03ca7f81a7e.stex" ]
 
 [params]
 
@@ -19,7 +19,7 @@ compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=1
+flags/repeat=0
 flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false

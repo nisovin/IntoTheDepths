@@ -16,6 +16,6 @@ func init(type):
 func _process(delta):
 	rotation += rot_speed * delta
 
-func _on_Powerup_area_entered(area):
+func _on_Powerup_area_entered(_area):
 	emit_signal("collected", powerup_type)
 	queue_free()
