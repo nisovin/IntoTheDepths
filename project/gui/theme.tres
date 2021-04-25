@@ -2,12 +2,12 @@
 
 [ext_resource path="res://gui/Lato-Regular.ttf" type="DynamicFontData" id=1]
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=1]
 size = 24
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="StyleBoxFlat" id=1]
+[sub_resource type="StyleBoxFlat" id=2]
 content_margin_top = 8.0
 content_margin_bottom = 8.0
 bg_color = Color( 0.415686, 0.356863, 0.254902, 1 )
@@ -17,9 +17,9 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color( 0.00784314, 0, 0, 1 )
 
-[sub_resource type="StyleBoxEmpty" id=2]
+[sub_resource type="StyleBoxEmpty" id=3]
 
-[sub_resource type="StyleBoxFlat" id=6]
+[sub_resource type="StyleBoxFlat" id=4]
 content_margin_top = 8.0
 content_margin_bottom = 8.0
 bg_color = Color( 0.898039, 0.596078, 0.0509804, 1 )
@@ -29,7 +29,7 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color( 0.00784314, 0, 0, 1 )
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=5]
 content_margin_top = 8.0
 content_margin_bottom = 8.0
 bg_color = Color( 0.666667, 0.462745, 0.0901961, 1 )
@@ -39,7 +39,7 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color( 0.00784314, 0, 0, 1 )
 
-[sub_resource type="StyleBoxFlat" id=5]
+[sub_resource type="StyleBoxFlat" id=6]
 content_margin_top = 8.0
 content_margin_bottom = 8.0
 bg_color = Color( 0.968627, 0.811765, 0.529412, 1 )
@@ -49,7 +49,7 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color( 0.00784314, 0, 0, 1 )
 
-[sub_resource type="StyleBoxFlat" id=8]
+[sub_resource type="StyleBoxFlat" id=7]
 bg_color = Color( 0.309804, 0.427451, 0.458824, 1 )
 border_width_left = 4
 border_width_top = 4
@@ -57,7 +57,7 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="StyleBoxFlat" id=7]
+[sub_resource type="StyleBoxFlat" id=8]
 content_margin_top = 7.0
 content_margin_bottom = 7.0
 bg_color = Color( 0, 0, 0, 1 )
@@ -68,16 +68,16 @@ Button/colors/font_color_disabled = Color( 0.9, 0.9, 0.9, 0.2 )
 Button/colors/font_color_hover = Color( 0.94, 0.94, 0.94, 1 )
 Button/colors/font_color_pressed = Color( 1, 1, 1, 1 )
 Button/constants/hseparation = 2
-Button/fonts/font = SubResource( 3 )
-Button/styles/disabled = SubResource( 1 )
-Button/styles/focus = SubResource( 2 )
-Button/styles/hover = SubResource( 6 )
-Button/styles/normal = SubResource( 4 )
-Button/styles/pressed = SubResource( 5 )
+Button/fonts/font = SubResource( 1 )
+Button/styles/disabled = SubResource( 2 )
+Button/styles/focus = SubResource( 3 )
+Button/styles/hover = SubResource( 4 )
+Button/styles/normal = SubResource( 5 )
+Button/styles/pressed = SubResource( 6 )
 HSlider/icons/grabber = null
 HSlider/icons/grabber_disabled = null
 HSlider/icons/grabber_highlight = null
 HSlider/icons/tick = null
-HSlider/styles/grabber_area = SubResource( 8 )
+HSlider/styles/grabber_area = SubResource( 7 )
 HSlider/styles/grabber_area_highlight = null
-HSlider/styles/slider = SubResource( 7 )
+HSlider/styles/slider = SubResource( 8 )

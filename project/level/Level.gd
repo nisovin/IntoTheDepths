@@ -278,7 +278,7 @@ func generate_chunk():
 		new_texture = TEXTURES[next_texture][1]
 		var new_color = TEXTURES[next_texture][2]
 		$Backdrop/Tween.remove_all()
-		$Backdrop/Tween.interpolate_property($Backdrop/ColorRect, "color", $Backdrop/ColorRect.color, new_color, 15, Tween.TRANS_LINEAR, Tween.EASE_IN, 5)
+		$Backdrop/Tween.interpolate_property($Backdrop/ColorRect, "color", $Backdrop/ColorRect.color, new_color, Game.TRANSITION_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN, 5)
 		$Backdrop/Tween.start()
 		next_texture += 1
 		chunks_since_texture_change = 0
@@ -329,7 +329,7 @@ func die():
 	Game.first_run = false
 	Game.save_game()
 	yield(get_tree().create_timer(1.5), "timeout")
-	get_tree().change_scene("res://Shop.tscn")
+	get_tree().change_scene("res://main/Shop.tscn")
 	
 
 func _on_SpeedUpTimer_timeout():

@@ -6,7 +6,8 @@ const CHUNK_HEIGHT = 250
 const CHUNK_MARGINS = 50
 const CHUNK_X_OFFSET = -(CHUNK_WIDTH - SCREEN_WIDTH) / 2
 const CHANGE_INTERVAL = 50
-const TRANSITION_CHUNKS = 20
+const TRANSITION_CHUNKS = 10
+const TRANSITION_TIME = 10
 const CENTER_CHANGE_VARIANCE = 25
 const WIDTH_NOISE_VARIANCE = 25
 const WIDTH_MIN = 100
@@ -143,3 +144,7 @@ func play_audio(sound):
 			a.stream = Sounds[sound]
 			a.play()
 			return
+
+func _unhandled_key_input(event):
+	if event.pressed and event.scancode == KEY_F11:
+		OS.window_fullscreen = not OS.window_fullscreen
