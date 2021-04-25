@@ -14,6 +14,11 @@ func _ready():
 	update_missiles(Game.missiles)
 	update_shields(Game.shields)
 	update_multiplier(Game.gold_multiplier + 1)
+	if Game.first_run:
+		slow_time_progress.hide()
+		missiles_label.hide()
+		shields_label.hide()
+		multiplier_label.hide()
 
 func update_slow_time(value, tween):
 	if tween:
@@ -24,10 +29,16 @@ func update_slow_time(value, tween):
 		slow_time_tween.remove_all()
 		slow_time_progress.value = value
 	slow_time_label.text = str(stepify(value, 0.1)) + " s"
+	if not slow_time_progress.visible:
+		slow_time_progress.show()
+		# TODO: show hint
 	
 func update_missiles(value):
 	missiles_label.text = str(value)
 	missiles_label.set("custom_colors/font_color", Color.red if value > 0 else Color.black)
+	if not missiles_label.visible:
+		missiles_label.show()
+		# TODO: show hint
 
 func update_shields(value):
 	shields_label.text = str(value)

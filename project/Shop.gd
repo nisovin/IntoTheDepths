@@ -29,7 +29,11 @@ func _on_buy_pressed(up):
 		Game.set(up, level + 1)
 		update_labels()
 
-
 func _on_Done_pressed():
 	Game.save_game()
 	get_tree().change_scene("res://level/Level.tscn")
+
+func _unhandled_key_input(event):
+	if event.scancode == KEY_F5 and event.pressed and Input.is_key_pressed(KEY_SHIFT):
+		Game.gold += 5000
+		update_labels()

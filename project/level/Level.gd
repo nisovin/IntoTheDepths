@@ -129,12 +129,12 @@ func missile_hit(pos, vel, bounces):
 func collect_powerup(type):
 	match type:
 		Game.PowerUpType.SLOW_TIME:
-			slow_time = Game.slow_time + 1
-			if slow_time > Game.slow_time + 1.25:
-				slow_time = Game.slow_time + 1
-			elif slow_time > Game.slow_time + 1:
+			slow_time += 1
+			if slow_time > Game.slow_time + 1.75:
 				slow_time = Game.slow_time + 1
 				fall_speed = 0
+			elif slow_time > Game.slow_time + 1:
+				slow_time = Game.slow_time + 1
 			gui.update_slow_time(slow_time, true)
 		Game.PowerUpType.MISSILE:
 			missiles += 1

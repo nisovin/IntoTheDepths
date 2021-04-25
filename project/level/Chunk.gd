@@ -73,6 +73,8 @@ func setup_outlines():
 	for node in outlines.get_children():
 		node.queue_free()
 	for node in polygons.get_children():
+		if node.is_queued_for_deletion():
+			continue
 		var line_points_1 = []
 		var line_points_2 = []
 		var side = 0

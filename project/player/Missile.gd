@@ -19,7 +19,7 @@ func bounce(b):
 func _physics_process(delta):
 	if not dead:
 		position += velocity * delta
-		if position.y > 1024:
+		if position.y > 1024 or position.y < 0:
 			dead = true
 			queue_free()
 
