@@ -1,0 +1,148 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://gui/Lato-Regular.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://gui/GUI.gd" type="Script" id=2]
+[ext_resource path="res://gui/Lato-Bold.ttf" type="DynamicFontData" id=3]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.521569, 0, 1, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_bottom = 4
+border_color = Color( 0.2, 0, 0.501961, 1 )
+border_blend = true
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.0980392, 0, 0.247059, 1 )
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="DynamicFont" id=2]
+size = 24
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 48
+outline_size = 3
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 36
+outline_size = 3
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 72
+outline_size = 8
+outline_color = Color( 0.196078, 0.00392157, 0.00392157, 1 )
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 72
+outline_size = 8
+outline_color = Color( 0.00392157, 0.0941176, 0.196078, 1 )
+font_data = ExtResource( 3 )
+
+[node name="GUI" type="CanvasLayer"]
+script = ExtResource( 2 )
+
+[node name="SlowTime" type="ProgressBar" parent="."]
+anchor_right = 1.0
+margin_left = 50.0
+margin_top = 20.0
+margin_right = -50.0
+margin_bottom = 60.0
+custom_styles/fg = SubResource( 1 )
+custom_styles/bg = SubResource( 3 )
+max_value = 1.0
+value = 0.5
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="SlowTime"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = SubResource( 2 )
+text = "5 s"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Depth" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -156.5
+margin_top = -91.0
+margin_right = 156.5
+margin_bottom = -32.0
+custom_fonts/font = SubResource( 5 )
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Multiplier" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -156.5
+margin_top = -59.0
+margin_right = 156.5
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color = Color( 1, 0.65098, 0, 1 )
+text = "x1"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Missiles" type="Label" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -167.0
+margin_top = -92.0
+margin_right = -22.0
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "0"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Shields" type="Label" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 22.0
+margin_top = -92.0
+margin_right = 167.0
+custom_fonts/font = SubResource( 6 )
+custom_colors/font_color = Color( 0, 1, 1, 1 )
+text = "0"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SlowTimeTween" type="Tween" parent="."]
