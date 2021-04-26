@@ -197,7 +197,7 @@ func collect_powerup(type):
 			missiles += 1
 			if missiles > Game.missiles + 1:
 				missiles = Game.missiles + 1
-				call_deferred("fire_missile", player.position, Vector2.DOWN * MISSILE_SPEED, 0)
+				call_deferred("fire_missile", player.position, Vector2.DOWN * MISSILE_SPEED, 0, false)
 			gui.update_missiles(missiles)
 			if Game.first_run and not Game.collected_missile:
 				gui.show_hint("Aim with mouse and left-click\nto launch missile")
