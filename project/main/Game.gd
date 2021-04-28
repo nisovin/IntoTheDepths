@@ -14,6 +14,7 @@ const WIDTH_MIN = 100
 const WIDTH_MAX = 300
 const WIDTH_START = 450
 
+const FALL_SPEED_NOOB = 300
 const FALL_SPEED_START = 300
 const FALL_SPEED_MAX = 1000
 const PIXELS_PER_DEPTH_UNIT = 50
@@ -58,6 +59,7 @@ var missiles = 0
 var missile_bounces = 0
 var shields = 0
 var gold_multiplier = 0
+var skip = 0
 
 var upgrades = {
 	"slow_time": "100 + level * level * 100",
@@ -66,6 +68,11 @@ var upgrades = {
 	"shields": "500 + level * level * 500",
 	"gold_multiplier": "pow(5, level) * 1000"
 }
+
+var skips = [
+	{ "to": 500, "requires": 750, "cost": 500 },
+	{ "to": 1000, "requires": 1500, "cost": 1000 }
+]
 
 var powerups = {
 	PowerUpType.SLOW_TIME: 10,
@@ -116,7 +123,6 @@ func load_game():
 	if file.file_exists(SAVE_FILE):
 		file.open(SAVE_FILE, File.READ)
 		var data = file.get_var()
-		print(data)
 		if data:
 			for field in SAVE_FIELDS:
 				if field in data:

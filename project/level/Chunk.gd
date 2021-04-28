@@ -133,20 +133,20 @@ func explode(center_global, radius, precision = 8):
 			# normal
 			var new_poly = new_polys.pop_front()
 			node.polygon = new_poly
-			if not trans:
-				area.get_child(p).set_deferred("polygon", new_poly)
+			if not trans: # TODO: check for size?
+				area.get_child(p).set_deferred("polygon", new_poly) # TODO: crash here! area shape is missing?
 			# split
 			while new_polys.size() > 0:
 				new_poly = new_polys.pop_front()
 				var new_poly_node = Polygon2D.new()
 				new_poly_node.polygon = new_poly
 				new_poly_node.texture = node.texture
-				polygons.add_child(new_poly_node)
+				polygons.call_deferred("add_child", new_poly_node) # TODO: maybe defer this?
 				var new_collision_node = CollisionPolygon2D.new()
 				new_collision_node.polygon = new_poly
 				if not trans:
 					area.call_deferred("add_child", new_collision_node)
 	
 	# done
-	setup_uv()
-	setup_outlines()
+	call_deferred("setup_uv")
+	call_deferred("setup_outlines")

@@ -6,11 +6,11 @@
 [ext_resource path="res://player/exhaust_particle.png" type="Texture" id=4]
 [ext_resource path="res://audio/slow.wav" type="AudioStream" id=5]
 
-[sub_resource type="Gradient" id=2]
+[sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.708075, 1 )
 colors = PoolColorArray( 0.658824, 0.168627, 0.713726, 1, 0.411765, 0.12549, 0.792157, 1, 0.0392157, 0.172549, 0.494118, 0 )
 
-[sub_resource type="CapsuleShape2D" id=1]
+[sub_resource type="CapsuleShape2D" id=2]
 radius = 16.0
 
 [node name="Player" type="Area2D"]
@@ -58,7 +58,7 @@ angular_velocity_random = 1.0
 angle = 720.0
 angle_random = 1.0
 scale_amount = 0.75
-color_ramp = SubResource( 2 )
+color_ramp = SubResource( 1 )
 
 [node name="RightSlowThruster" type="CPUParticles2D" parent="."]
 position = Vector2( 11.2246, 28.9034 )
@@ -78,7 +78,7 @@ angular_velocity_random = 1.0
 angle = 720.0
 angle_random = 1.0
 scale_amount = 0.75
-color_ramp = SubResource( 2 )
+color_ramp = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
@@ -88,7 +88,47 @@ modulate = Color( 1, 1, 1, 0.313726 )
 texture = ExtResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
+shape = SubResource( 2 )
+
+[node name="LeftRays" type="Node2D" parent="."]
+
+[node name="Ray1" type="RayCast2D" parent="LeftRays"]
+rotation = 0.174533
+cast_to = Vector2( 0, 500 )
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="Ray2" type="RayCast2D" parent="LeftRays"]
+rotation = 0.523599
+cast_to = Vector2( 0, 500 )
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="Ray3" type="RayCast2D" parent="LeftRays"]
+rotation = 0.872665
+cast_to = Vector2( 0, 500 )
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="RightRays" type="Node2D" parent="."]
+
+[node name="Ray1" type="RayCast2D" parent="RightRays"]
+rotation = -0.174533
+cast_to = Vector2( 0, 500 )
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="Ray2" type="RayCast2D" parent="RightRays"]
+rotation = -0.523599
+cast_to = Vector2( 0, 500 )
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="Ray3" type="RayCast2D" parent="RightRays"]
+rotation = -0.872665
+cast_to = Vector2( 0, 500 )
+collide_with_areas = true
+collide_with_bodies = false
 
 [node name="AudioSlow" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )

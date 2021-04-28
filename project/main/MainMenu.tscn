@@ -1,9 +1,13 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://gui/Lato-Bold.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://level/dirt.png" type="Texture" id=2]
 [ext_resource path="res://main/MainMenu.gd" type="Script" id=3]
 [ext_resource path="res://gui/theme.tres" type="Theme" id=4]
+
+[sub_resource type="DynamicFont" id=2]
+size = 48
+font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=1]
 size = 72
@@ -24,6 +28,23 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 texture = ExtResource( 2 )
 stretch_mode = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -205.599
+margin_top = -191.599
+margin_right = -12.5991
+margin_bottom = -12.5992
+custom_fonts/font = SubResource( 2 )
+text = "v.2"
+align = 2
+valign = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }

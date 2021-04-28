@@ -22,6 +22,7 @@ const TEXTURES = [
 onready var chunks = $Chunks
 onready var player = $Player
 onready var gui = $GUI
+onready var back_color = $Backdrop/ColorRect
 
 var countdown = 4
 var texture = TEXTURES[0][1]
@@ -31,12 +32,12 @@ var next_texture = 1
 var chunk_depth: int = 0
 var player_depth: float = 0
 var center: float = Game.CHUNK_WIDTH / 2
-var width: float = Game.WIDTH_START
+var width: float = Game.WIDTH_START if Game.first_run else Game.WIDTH_MAX
 var width_change_dir = -1
 var chunks_since_texture_change = 0
 var chunks_since_power_up = 0
+var chunks_since_gold_powerup = 0
 var powerup_counter = 0
-var gold_parts = 0
 
 var normal_fall_speed = Game.FALL_SPEED_START
 var fall_speed = normal_fall_speed
@@ -51,6 +52,15 @@ var gold_multiplier = Game.gold_multiplier + 1
 var immunity = 0
 
 func _ready():
+	if Game.skip > 0:
+		chunk_depth = Game.skip * Game.PIXELS_PER_DEPTH_UNIT
+		player_depth = Game.skip * Game.PIXELS_PER_DEPTH_UNIT
+		gui.update_depth(Game.skip)
+		for t in TEXTURES:
+			if t[0] < Game.skip:
+				texture = t[1]
+				back_color.color = t[2]
+		Game.skip = 0
 	for i in 8:
 		generate_chunk()
 	player.shield(shields > 0)
@@ -140,19 +150,22 @@ func _unhandled_input(event):
 	if countdown > 0 or player_dead: return
 	if event.is_action_pressed("fire"):
 		if missiles > 0:
-			var dir = Vector2.DOWN
-			if Game.using_controller:
-				var x = Input.get_joy_axis(Game.device, JOY_AXIS_0)
-				if abs(x) < 0.15:
-					dir = Vector2.DOWN
-				else:
-					dir = Vector2(x, 1).normalized()
-			elif time_since_mouse_move < 5:
-				dir = player.global_position.direction_to(get_global_mouse_position())
-			else:
-				dir = Vector2.DOWN
+#			var dir = Vector2.DOWN
+#			if Game.using_controller:
+#				var x = Input.get_joy_axis(Game.device, JOY_AXIS_0)
+#				if abs(x) < 0.15:
+#					dir = Vector2.DOWN
+#				else:
+#					dir = Vector2(x, 1).normalized()
+#			elif time_since_mouse_move < 10:
+#				dir = player.global_position.direction_to(get_global_mouse_position())
+#			else:
+#				dir = Vector2.DOWN
+			#for dir in player.choose_missile_dirs():
+			#	fire_missile(player.position, dir * MISSILE_SPEED, Game.missile_bounces, false)
+			fire_missile(player.position, Vector2(-1, 2).normalized() * MISSILE_SPEED, Game.missile_bounces, false)
+			fire_missile(player.position, Vector2(1, 2).normalized() * MISSILE_SPEED, Game.missile_bounces, false)
 			missiles -= 1
-			fire_missile(player.position, dir * MISSILE_SPEED, Game.missile_bounces, false)
 			gui.update_missiles(missiles)
 			
 	if event is InputEventJoypadButton or (event is InputEventJoypadMotion and abs(event.axis_value) > 0.5):
@@ -190,7 +203,7 @@ func collect_powerup(type):
 				slow_time = Game.slow_time + 1
 			gui.update_slow_time(slow_time, true)
 			if Game.first_run and not Game.collected_slow:
-				gui.show_hint("Hold right-click or space\nto fire thrusters")
+				gui.show_hint("Hold Z to fire thrusters")
 				Game.collected_slow = true
 			Game.play_audio("powerup_slow")
 		Game.PowerUpType.MISSILE:
@@ -200,7 +213,7 @@ func collect_powerup(type):
 				call_deferred("fire_missile", player.position, Vector2.DOWN * MISSILE_SPEED, 0, false)
 			gui.update_missiles(missiles)
 			if Game.first_run and not Game.collected_missile:
-				gui.show_hint("Aim with mouse and left-click\nto launch missile")
+				gui.show_hint("Press C to launch missiles")
 				Game.collected_missile = true
 			Game.play_audio("powerup_missile")
 		Game.PowerUpType.SHIELD:
@@ -232,11 +245,11 @@ func generate_chunk():
 		next_width = width - Game.rng.randi_range(1, 8)
 	var min_width = Game.WIDTH_MIN
 	if chunk_depth > Game.PIXELS_PER_DEPTH_UNIT * 1500:
-		min_width *= 0.75
+		min_width -= 15
 	if chunk_depth > Game.PIXELS_PER_DEPTH_UNIT * 3000:
-		min_width *= 0.75
+		min_width -= 10
 	if chunk_depth > Game.PIXELS_PER_DEPTH_UNIT * 5000:
-		min_width *= 0.75
+		min_width -= 10
 	if next_width < min_width:
 		next_width = min_width
 		width_change_dir = 1
@@ -247,10 +260,15 @@ func generate_chunk():
 		if Game.rng.randf() < 0.1:
 			width_change_dir = -1
 		
+	# get y pos
+	var y = 0
+	if chunks.get_child_count() > 0:
+		y = chunks.get_children().back().position.y + Game.CHUNK_HEIGHT
+		
 	# create chunk
 	var chunk = Chunk.instance()
 	chunks.add_child(chunk)
-	chunk.position = Vector2(Game.CHUNK_X_OFFSET, chunk_depth)
+	chunk.position = Vector2(Game.CHUNK_X_OFFSET, y)
 	chunk.init(center, width, next_width, chunk_depth, texture)
 	if chunks_since_texture_change < Game.TRANSITION_CHUNKS and new_texture != null:
 		var chunk2 = chunk.duplicate()
@@ -260,7 +278,6 @@ func generate_chunk():
 		chunk2.transition_layer(new_texture, chunks_since_texture_change / float(Game.TRANSITION_CHUNKS))
 		chunks_since_texture_change += 1
 		if chunks_since_texture_change == Game.TRANSITION_CHUNKS:
-			print(chunks_since_texture_change)
 			texture = new_texture
 			new_texture = null
 		
@@ -285,6 +302,7 @@ func generate_chunk():
 	
 	# powerup
 	chunks_since_power_up += 1
+	chunks_since_gold_powerup += 1
 	var powerup_type = -1
 	if Game.first_run:
 		if chunks_since_power_up > 10 and powerup_counter <= 1:
@@ -292,7 +310,14 @@ func generate_chunk():
 		elif chunks_since_power_up > 30:
 			powerup_type = Game.PowerUpType.SLOW_TIME if Game.rng.randf() < 0.5 else Game.PowerUpType.MISSILE
 	elif chunks_since_power_up > 20 and Game.rng.randf() < (chunks_since_power_up - 20) / 10.0:
-		powerup_type = Game.rand_weighted(Game.powerups)
+		var options = Game.powerups.duplicate()
+		if chunk_depth > 1000 * Game.PIXELS_PER_DEPTH_UNIT and chunks_since_gold_powerup > 100:
+			options[Game.PowerUpType.GOLD_MULT] += 10 + (chunks_since_gold_powerup - 100) / 10
+		print(chunks_since_gold_powerup, options)
+		powerup_type = Game.rand_weighted(options)
+		if powerup_type == Game.PowerUpType.GOLD_MULT:
+			print("got it")
+			chunks_since_gold_powerup = 0
 	if powerup_type >= 0:
 		var powerup = Game.PowerUp.instance()
 		chunk.add_child(powerup)
@@ -333,7 +358,8 @@ func die():
 	
 
 func _on_SpeedUpTimer_timeout():
-	normal_fall_speed += 25
+	normal_fall_speed = floor(Game.FALL_SPEED_START + player_depth / Game.PIXELS_PER_DEPTH_UNIT * 0.75)
 	if normal_fall_speed > Game.FALL_SPEED_MAX:
+		normal_fall_speed = Game.FALL_SPEED_MAX
 		$SpeedUpTimer.stop()
 

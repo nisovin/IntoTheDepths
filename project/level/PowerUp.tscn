@@ -3,7 +3,7 @@
 [ext_resource path="res://level/PowerUp.gd" type="Script" id=1]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 18.9145
+radius = 29.9474
 
 [node name="Powerup" type="Area2D" groups=[
 "powerup",

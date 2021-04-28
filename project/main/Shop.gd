@@ -5,9 +5,15 @@ onready var menu = $CenterContainer/Menu
 var play_sample_sound_in = -1
 
 func _ready():
+	Game.play_music()
+	Game.skip = 0
 	for u in Game.upgrades:
 		var b = menu.get_node(u + "/Button")
 		b.connect("pressed", self, "_on_buy_pressed", [u])
+		b.connect("mouse_entered", self, "_on_mouseover")
+	for s in Game.skips:
+		var b = menu.get_node("skip_" + str(s.to) + "/Button")
+		b.connect("pressed", self, "_on_skip_pressed", [s])
 		b.connect("mouse_entered", self, "_on_mouseover")
 	update_labels()
 	menu.get_node("Last").text = "Last: " + str(Game.last_depth)
@@ -28,8 +34,12 @@ func update_labels():
 		if cost > 10000:
 			cost_str = str(ceil(cost / 1000.0)) + "K"
 		menu.get_node(u + "/Value").text = str(level)
-		menu.get_node(u + "/Cost").text = cost_str
+		menu.get_node(u + "/Cost").text = "$" + cost_str
 		menu.get_node(u + "/Button").disabled = Game.gold < cost
+	for s in Game.skips:
+		menu.get_node("skip_" + str(s.to)).visible = Game.max_depth >= s.requires
+		menu.get_node("skip_" + str(s.to) + "/Cost").text = "$" + str(s.cost)
+		menu.get_node("skip_" + str(s.to) + "/Button").disabled = Game.gold < s.cost or Game.skip > 0
 
 func _on_buy_pressed(up):
 	var level = Game.get(up)
@@ -37,6 +47,13 @@ func _on_buy_pressed(up):
 	if Game.gold >= cost:
 		Game.gold -= cost
 		Game.set(up, level + 1)
+		update_labels()
+		Game.play_audio("click")
+
+func _on_skip_pressed(s):
+	if Game.gold >= s.cost:
+		Game.gold -= s.cost
+		Game.skip = s.to
 		update_labels()
 		Game.play_audio("click")
 
