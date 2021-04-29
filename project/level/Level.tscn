@@ -33,7 +33,6 @@ __meta__ = {
 }
 
 [node name="Tween" type="Tween" parent="Backdrop"]
-
 [connection signal="area_entered" from="Player" to="." method="_on_Player_area_entered"]
 [connection signal="timeout" from="SpeedUpTimer" to="." method="_on_SpeedUpTimer_timeout"]
 [connection signal="timeout" from="CountdownTimer" to="." method="_on_CountdownTimer_timeout"]

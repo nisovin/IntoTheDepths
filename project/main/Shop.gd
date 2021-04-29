@@ -16,8 +16,8 @@ func _ready():
 		b.connect("pressed", self, "_on_skip_pressed", [s])
 		b.connect("mouse_entered", self, "_on_mouseover")
 	update_labels()
-	menu.get_node("Last").text = "Last: " + str(Game.last_depth)
-	menu.get_node("Best").text = "Best: " + str(Game.max_depth)
+	menu.get_node("LastBest/Last").text = "  Last: " + str(Game.last_depth)
+	menu.get_node("LastBest/Best").text = "Best: " + str(Game.max_depth) + "  "
 	if Game.last_texture != null:
 		$TextureRect.texture = Game.last_texture
 	menu.find_node("MainVolume").value = db2linear(AudioServer.get_bus_volume_db(0))
@@ -62,11 +62,6 @@ func _on_Done_pressed():
 	Game.play_audio("click")
 	get_tree().change_scene("res://level/Level.tscn")
 
-func _unhandled_key_input(event):
-	if event.scancode == KEY_F5 and event.pressed and Input.is_key_pressed(KEY_SHIFT):
-		Game.gold += 5000
-		update_labels()
-
 func _on_MainVolume_value_changed(value):
 	AudioServer.set_bus_volume_db(0, linear2db(value))
 
@@ -83,6 +78,29 @@ func _process(delta):
 		if play_sample_sound_in <= 0:
 			Game.play_audio("explode")
 
-
 func _on_mouseover():
 	Game.play_audio("rollover")
+
+# DEBUG ONLY
+
+var cheater_timer = 0
+
+func _on_Title_gui_input(event):
+	if event is InputEventMouseButton:
+		if event.pressed:
+			cheater_timer = 0
+			$CheaterTimer.start()
+		else:
+			$CheaterTimer.stop()
+
+func _on_CheaterTimer_timeout():
+	cheater_timer += 0.1
+	if cheater_timer > 5:
+		Game.gold += 100
+		update_labels()
+
+func _on_Settings_pressed():
+	Settings.show_menu()
+
+func _on_Quit_pressed():
+	get_tree().quit()

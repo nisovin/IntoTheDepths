@@ -54,22 +54,23 @@ __meta__ = {
 }
 
 [node name="Menu" type="VBoxContainer" parent="CenterContainer"]
-margin_left = 38.0
-margin_top = 75.0
+margin_left = 37.0
+margin_top = 64.0
 margin_right = 538.0
-margin_bottom = 948.0
+margin_bottom = 960.0
 custom_constants/separation = 10
 
 [node name="Title" type="Label" parent="CenterContainer/Menu"]
-margin_right = 500.0
+margin_right = 501.0
 margin_bottom = 88.0
+mouse_filter = 0
 custom_fonts/font = SubResource( 1 )
 text = "STORE"
 align = 1
 
 [node name="Gold" type="Label" parent="CenterContainer/Menu"]
 margin_top = 98.0
-margin_right = 500.0
+margin_right = 501.0
 margin_bottom = 157.0
 custom_fonts/font = SubResource( 2 )
 text = "Gold: 0"
@@ -77,14 +78,14 @@ align = 1
 
 [node name="slow_time" type="HBoxContainer" parent="CenterContainer/Menu"]
 margin_top = 167.0
-margin_right = 500.0
-margin_bottom = 213.0
+margin_right = 501.0
+margin_bottom = 237.0
 custom_constants/separation = 10
 
 [node name="Name" type="Label" parent="CenterContainer/Menu/slow_time"]
-margin_top = 8.0
+margin_top = 20.0
 margin_right = 250.0
-margin_bottom = 38.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 250, 0 )
 custom_fonts/font = SubResource( 3 )
 text = "Thruster Fuel"
@@ -92,9 +93,9 @@ align = 2
 
 [node name="Value" type="Label" parent="CenterContainer/Menu/slow_time"]
 margin_left = 260.0
-margin_top = 8.0
+margin_top = 20.0
 margin_right = 320.0
-margin_bottom = 38.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 60, 0 )
 custom_fonts/font = SubResource( 3 )
 text = "1"
@@ -102,9 +103,9 @@ align = 1
 
 [node name="Cost" type="Label" parent="CenterContainer/Menu/slow_time"]
 margin_left = 330.0
-margin_top = 8.0
+margin_top = 20.0
 margin_right = 410.0
-margin_bottom = 38.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 80, 0 )
 custom_fonts/font = SubResource( 3 )
 text = "100"
@@ -112,22 +113,22 @@ align = 2
 
 [node name="Button" type="Button" parent="CenterContainer/Menu/slow_time"]
 margin_left = 420.0
-margin_right = 500.0
-margin_bottom = 46.0
+margin_right = 501.0
+margin_bottom = 70.0
 rect_min_size = Vector2( 80, 0 )
 custom_fonts/font = SubResource( 3 )
 text = "Buy"
 
 [node name="missiles" type="HBoxContainer" parent="CenterContainer/Menu"]
-margin_top = 223.0
-margin_right = 500.0
-margin_bottom = 269.0
+margin_top = 247.0
+margin_right = 501.0
+margin_bottom = 317.0
 custom_constants/separation = 10
 
 [node name="Name" type="Label" parent="CenterContainer/Menu/missiles"]
-margin_top = 8.0
+margin_top = 20.0
 margin_right = 250.0
-margin_bottom = 38.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 250, 0 )
 custom_fonts/font = SubResource( 3 )
 text = "Starting Missiles"
@@ -135,9 +136,9 @@ align = 2
 
 [node name="Value" type="Label" parent="CenterContainer/Menu/missiles"]
 margin_left = 260.0
-margin_top = 8.0
+margin_top = 20.0
 margin_right = 320.0
-margin_bottom = 38.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 60, 0 )
 custom_fonts/font = SubResource( 3 )
 text = "1"
@@ -145,9 +146,9 @@ align = 1
 
 [node name="Cost" type="Label" parent="CenterContainer/Menu/missiles"]
 margin_left = 330.0
-margin_top = 8.0
+margin_top = 20.0
 margin_right = 410.0
-margin_bottom = 38.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 80, 0 )
 custom_fonts/font = SubResource( 3 )
 text = "100"
@@ -155,22 +156,22 @@ align = 2
 
 [node name="Button" type="Button" parent="CenterContainer/Menu/missiles"]
 margin_left = 420.0
-margin_right = 500.0
-margin_bottom = 46.0
+margin_right = 501.0
+margin_bottom = 70.0
 rect_min_size = Vector2( 80, 0 )
 custom_fonts/font = SubResource( 3 )
 text = "Buy"
 
 [node name="missile_bounces" type="HBoxContainer" parent="CenterContainer/Menu"]
-margin_top = 279.0
-margin_right = 500.0
-margin_bottom = 325.0
+margin_top = 327.0
+margin_right = 501.0
+margin_bottom = 397.0
 custom_constants/separation = 10
 
 [node name="Name" type="Label" parent="CenterContainer/Menu/missile_bounces"]
-margin_top = 8.0
+margin_top = 20.0
 margin_right = 250.0
-margin_bottom = 38.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 250, 0 )
 custom_fonts/font = SubResource( 3 )
 text = "Missile Bounces"
@@ -178,9 +179,9 @@ align = 2
 
 [node name="Value" type="Label" parent="CenterContainer/Menu/missile_bounces"]
 margin_left = 260.0
-margin_top = 8.0
+margin_top = 20.0
 margin_right = 320.0
-margin_bottom = 38.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 60, 0 )
 custom_fonts/font = SubResource( 3 )
 text = "1"
@@ -188,9 +189,9 @@ align = 1
 
 [node name="Cost" type="Label" parent="CenterContainer/Menu/missile_bounces"]
 margin_left = 330.0
-margin_top = 8.0
+margin_top = 20.0
 margin_right = 410.0
-margin_bottom = 38.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 80, 0 )
 custom_fonts/font = SubResource( 3 )
 text = "100"
@@ -198,22 +199,22 @@ align = 2
 
 [node name="Button" type="Button" parent="CenterContainer/Menu/missile_bounces"]
 margin_left = 420.0
-margin_right = 500.0
-margin_bottom = 46.0
+margin_right = 501.0
+margin_bottom = 70.0
 rect_min_size = Vector2( 80, 0 )
 custom_fonts/font = SubResource( 3 )
 text = "Buy"
 
 [node name="shields" type="HBoxContainer" parent="CenterContainer/Menu"]
-margin_top = 335.0
-margin_right = 500.0
-margin_bottom = 381.0
+margin_top = 407.0
+margin_right = 501.0
+margin_bottom = 477.0
 custom_constants/separation = 10
 
 [node name="Name" type="Label" parent="CenterContainer/Menu/shields"]
-margin_top = 8.0
+margin_top = 20.0
 margin_right = 250.0
-margin_bottom = 38.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 250, 0 )
 custom_fonts/font = SubResource( 3 )
 text = "Explosive Shields"
@@ -221,9 +222,9 @@ align = 2
 
 [node name="Value" type="Label" parent="CenterContainer/Menu/shields"]
 margin_left = 260.0
-margin_top = 8.0
+margin_top = 20.0
 margin_right = 320.0
-margin_bottom = 38.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 60, 0 )
 custom_fonts/font = SubResource( 3 )
 text = "1"
@@ -231,9 +232,9 @@ align = 1
 
 [node name="Cost" type="Label" parent="CenterContainer/Menu/shields"]
 margin_left = 330.0
-margin_top = 8.0
+margin_top = 20.0
 margin_right = 410.0
-margin_bottom = 38.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 80, 0 )
 custom_fonts/font = SubResource( 3 )
 text = "100"
@@ -241,22 +242,22 @@ align = 2
 
 [node name="Button" type="Button" parent="CenterContainer/Menu/shields"]
 margin_left = 420.0
-margin_right = 500.0
-margin_bottom = 46.0
+margin_right = 501.0
+margin_bottom = 70.0
 rect_min_size = Vector2( 80, 0 )
 custom_fonts/font = SubResource( 3 )
 text = "Buy"
 
 [node name="gold_multiplier" type="HBoxContainer" parent="CenterContainer/Menu"]
-margin_top = 391.0
-margin_right = 500.0
-margin_bottom = 437.0
+margin_top = 487.0
+margin_right = 501.0
+margin_bottom = 557.0
 custom_constants/separation = 10
 
 [node name="Name" type="Label" parent="CenterContainer/Menu/gold_multiplier"]
-margin_top = 8.0
+margin_top = 20.0
 margin_right = 250.0
-margin_bottom = 38.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 250, 0 )
 custom_fonts/font = SubResource( 3 )
 text = "Golden Replicator"
@@ -264,9 +265,9 @@ align = 2
 
 [node name="Value" type="Label" parent="CenterContainer/Menu/gold_multiplier"]
 margin_left = 260.0
-margin_top = 8.0
+margin_top = 20.0
 margin_right = 320.0
-margin_bottom = 38.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 60, 0 )
 custom_fonts/font = SubResource( 3 )
 text = "1"
@@ -274,9 +275,9 @@ align = 1
 
 [node name="Cost" type="Label" parent="CenterContainer/Menu/gold_multiplier"]
 margin_left = 330.0
-margin_top = 8.0
+margin_top = 20.0
 margin_right = 410.0
-margin_bottom = 38.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 80, 0 )
 custom_fonts/font = SubResource( 3 )
 text = "100"
@@ -284,22 +285,22 @@ align = 2
 
 [node name="Button" type="Button" parent="CenterContainer/Menu/gold_multiplier"]
 margin_left = 420.0
-margin_right = 500.0
-margin_bottom = 46.0
+margin_right = 501.0
+margin_bottom = 70.0
 rect_min_size = Vector2( 80, 0 )
 custom_fonts/font = SubResource( 3 )
 text = "Buy"
 
 [node name="skip_500" type="HBoxContainer" parent="CenterContainer/Menu"]
-margin_top = 447.0
-margin_right = 500.0
-margin_bottom = 493.0
+margin_top = 567.0
+margin_right = 501.0
+margin_bottom = 637.0
 custom_constants/separation = 10
 
 [node name="Name" type="Label" parent="CenterContainer/Menu/skip_500"]
-margin_top = 8.0
+margin_top = 20.0
 margin_right = 250.0
-margin_bottom = 38.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 250, 0 )
 custom_fonts/font = SubResource( 3 )
 text = "Shortcut to 500"
@@ -307,18 +308,18 @@ align = 2
 
 [node name="Value" type="Label" parent="CenterContainer/Menu/skip_500"]
 margin_left = 260.0
-margin_top = 8.0
+margin_top = 20.0
 margin_right = 320.0
-margin_bottom = 38.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 60, 0 )
 custom_fonts/font = SubResource( 3 )
 align = 1
 
 [node name="Cost" type="Label" parent="CenterContainer/Menu/skip_500"]
 margin_left = 330.0
-margin_top = 8.0
+margin_top = 20.0
 margin_right = 410.0
-margin_bottom = 38.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 80, 0 )
 custom_fonts/font = SubResource( 3 )
 text = "100"
@@ -326,22 +327,22 @@ align = 2
 
 [node name="Button" type="Button" parent="CenterContainer/Menu/skip_500"]
 margin_left = 420.0
-margin_right = 500.0
-margin_bottom = 46.0
+margin_right = 501.0
+margin_bottom = 70.0
 rect_min_size = Vector2( 80, 0 )
 custom_fonts/font = SubResource( 3 )
 text = "Buy"
 
 [node name="skip_1000" type="HBoxContainer" parent="CenterContainer/Menu"]
-margin_top = 503.0
-margin_right = 500.0
-margin_bottom = 549.0
+margin_top = 647.0
+margin_right = 501.0
+margin_bottom = 717.0
 custom_constants/separation = 10
 
 [node name="Name" type="Label" parent="CenterContainer/Menu/skip_1000"]
-margin_top = 8.0
+margin_top = 20.0
 margin_right = 250.0
-margin_bottom = 38.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 250, 0 )
 custom_fonts/font = SubResource( 3 )
 text = "Shortcut to 1000"
@@ -349,18 +350,18 @@ align = 2
 
 [node name="Value" type="Label" parent="CenterContainer/Menu/skip_1000"]
 margin_left = 260.0
-margin_top = 8.0
+margin_top = 20.0
 margin_right = 320.0
-margin_bottom = 38.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 60, 0 )
 custom_fonts/font = SubResource( 3 )
 align = 1
 
 [node name="Cost" type="Label" parent="CenterContainer/Menu/skip_1000"]
 margin_left = 330.0
-margin_top = 8.0
+margin_top = 20.0
 margin_right = 410.0
-margin_bottom = 38.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 80, 0 )
 custom_fonts/font = SubResource( 3 )
 text = "100"
@@ -368,51 +369,57 @@ align = 2
 
 [node name="Button" type="Button" parent="CenterContainer/Menu/skip_1000"]
 margin_left = 420.0
-margin_right = 500.0
-margin_bottom = 46.0
+margin_right = 501.0
+margin_bottom = 70.0
 rect_min_size = Vector2( 80, 0 )
 custom_fonts/font = SubResource( 3 )
 text = "Buy"
 
 [node name="Done" type="Button" parent="CenterContainer/Menu"]
-margin_top = 559.0
-margin_right = 500.0
-margin_bottom = 605.0
+margin_top = 727.0
+margin_right = 501.0
+margin_bottom = 797.0
 custom_fonts/font = SubResource( 3 )
 text = "Go Again"
 
 [node name="Control" type="Control" parent="CenterContainer/Menu"]
-margin_top = 615.0
-margin_right = 500.0
-margin_bottom = 625.0
+margin_top = 807.0
+margin_right = 501.0
+margin_bottom = 817.0
 rect_min_size = Vector2( 0, 10 )
 
-[node name="Last" type="Label" parent="CenterContainer/Menu"]
-margin_top = 635.0
-margin_right = 500.0
-margin_bottom = 674.0
+[node name="LastBest" type="HBoxContainer" parent="CenterContainer/Menu"]
+margin_top = 827.0
+margin_right = 501.0
+margin_bottom = 866.0
+
+[node name="Last" type="Label" parent="CenterContainer/Menu/LastBest"]
+margin_right = 248.0
+margin_bottom = 39.0
+size_flags_horizontal = 3
 custom_fonts/font = SubResource( 4 )
 text = "Last: 0"
-align = 1
 
-[node name="Best" type="Label" parent="CenterContainer/Menu"]
-margin_top = 684.0
-margin_right = 500.0
-margin_bottom = 723.0
+[node name="Best" type="Label" parent="CenterContainer/Menu/LastBest"]
+margin_left = 252.0
+margin_right = 501.0
+margin_bottom = 39.0
+size_flags_horizontal = 3
 custom_fonts/font = SubResource( 4 )
 text = "Best: 0"
-align = 1
+align = 2
 
 [node name="Control2" type="Control" parent="CenterContainer/Menu"]
-margin_top = 733.0
-margin_right = 500.0
-margin_bottom = 753.0
+margin_top = 876.0
+margin_right = 501.0
+margin_bottom = 896.0
 rect_min_size = Vector2( 0, 20 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/Menu"]
-margin_top = 763.0
+visible = false
+margin_top = 955.0
 margin_right = 500.0
-margin_bottom = 793.0
+margin_bottom = 985.0
 custom_constants/separation = 20
 
 [node name="Label" type="Label" parent="CenterContainer/Menu/HBoxContainer"]
@@ -436,9 +443,10 @@ step = 0.01
 value = 0.5
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="CenterContainer/Menu"]
-margin_top = 803.0
+visible = false
+margin_top = 955.0
 margin_right = 500.0
-margin_bottom = 833.0
+margin_bottom = 985.0
 custom_constants/separation = 20
 
 [node name="Label" type="Label" parent="CenterContainer/Menu/HBoxContainer2"]
@@ -462,9 +470,10 @@ step = 0.01
 value = 0.5
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="CenterContainer/Menu"]
-margin_top = 843.0
+visible = false
+margin_top = 955.0
 margin_right = 500.0
-margin_bottom = 873.0
+margin_bottom = 985.0
 custom_constants/separation = 20
 
 [node name="Label" type="Label" parent="CenterContainer/Menu/HBoxContainer3"]
@@ -487,8 +496,39 @@ max_value = 1.0
 step = 0.01
 value = 0.5
 
+[node name="CheaterTimer" type="Timer" parent="."]
+wait_time = 0.1
+
+[node name="Settings" type="Button" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -150.0
+margin_top = -70.0
+rect_min_size = Vector2( 150, 0 )
+text = "Settings"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Quit" type="Button" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -70.0
+margin_right = 150.0
+rect_min_size = Vector2( 150, 0 )
+text = "Quit"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="gui_input" from="CenterContainer/Menu/Title" to="." method="_on_Title_gui_input"]
 [connection signal="mouse_entered" from="CenterContainer/Menu/Done" to="." method="_on_mouseover"]
 [connection signal="pressed" from="CenterContainer/Menu/Done" to="." method="_on_Done_pressed"]
 [connection signal="value_changed" from="CenterContainer/Menu/HBoxContainer/MainVolume" to="." method="_on_MainVolume_value_changed"]
 [connection signal="value_changed" from="CenterContainer/Menu/HBoxContainer2/MusicVolume" to="." method="_on_MusicVolume_value_changed"]
 [connection signal="value_changed" from="CenterContainer/Menu/HBoxContainer3/EffectsVolume" to="." method="_on_EffectsVolume_value_changed"]
+[connection signal="timeout" from="CheaterTimer" to="." method="_on_CheaterTimer_timeout"]
+[connection signal="pressed" from="Settings" to="." method="_on_Settings_pressed"]
+[connection signal="pressed" from="Quit" to="." method="_on_Quit_pressed"]

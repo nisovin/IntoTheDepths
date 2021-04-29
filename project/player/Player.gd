@@ -1,5 +1,9 @@
 extends Area2D
 
+const MOVE_SPEED = 200
+const SIDE_ACCEL = 800
+const PLAYER_ROT = deg2rad(30)
+
 onready var left_turn_thruster = $LeftTurnThruster
 onready var right_turn_thruster = $RightTurnThruster
 onready var left_slow_thruster = $LeftSlowThruster
@@ -9,6 +13,30 @@ onready var left_rays = $LeftRays.get_children()
 onready var right_rays = $RightRays.get_children()
 
 var slow_thrusters_on = false
+var move_speed = 0
+
+func move(delta):
+	var x = Input.get_action_strength("right") - Input.get_action_strength("left")
+	if OS.has_feature("mobile"):
+		x = Input.get_gravity().normalized().x
+		if abs(x) < Settings.tilt_dead_zone / 100:
+			x = 0
+		else:
+			x = move_toward(x, 0, Settings.tilt_dead_zone / 100)
+			x = clamp(x * Settings.tilt_sensitivity / 10, -1, 1)
+	var target_speed = MOVE_SPEED * x
+	var accel = SIDE_ACCEL
+	if x > 0:
+		accel *= abs(x)
+		if move_speed < 0:
+			accel *= 2
+	elif x < 0:
+		accel *= abs(x)
+		if move_speed > 0:
+			accel *= 2
+	move_speed = move_toward(move_speed, target_speed, accel * delta)
+	position.x += move_speed * delta
+	rotation = move_speed / MOVE_SPEED * PLAYER_ROT
 
 func choose_missile_dirs():
 	var dirs = [null, null]

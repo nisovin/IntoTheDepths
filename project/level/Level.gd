@@ -4,9 +4,6 @@ const Chunk = preload("Chunk.tscn")
 
 const VERT_ACCEL_RATE = 0.5
 const VERT_DECEL_RATE = 2
-const MOVE_SPEED = 200
-const SIDE_ACCEL = 800
-const PLAYER_ROT = deg2rad(30)
 const EXPLOSION_RADIUS = 150
 const SHIELD_EXPLOSION_RADIUS = 300
 const MISSILE_SPEED = 800
@@ -34,6 +31,7 @@ var player_depth: float = 0
 var center: float = Game.CHUNK_WIDTH / 2
 var width: float = Game.WIDTH_START if Game.first_run else Game.WIDTH_MAX
 var width_change_dir = -1
+var transition_chunks = Game.TRANSITION_CHUNKS_MOBILE if OS.has_feature("mobile") else Game.TRANSITION_CHUNKS
 var chunks_since_texture_change = 0
 var chunks_since_power_up = 0
 var chunks_since_gold_powerup = 0
@@ -41,8 +39,8 @@ var powerup_counter = 0
 
 var normal_fall_speed = Game.FALL_SPEED_START
 var fall_speed = normal_fall_speed
-var move_speed = 0
 var time_since_mouse_move = 0
+var slowing_pressed_index = -1
 
 var player_dead = false
 var slow_time = Game.slow_time
@@ -73,7 +71,10 @@ func _on_CountdownTimer_timeout():
 		$CountdownTimer.stop()
 		Game.play_audio("boop2")
 		if Game.first_run:
-			gui.show_hint("Use A and D\nor arrow keys to move")
+			if OS.has_feature("mobile"):
+				gui.show_hint("Tilt to move")
+			else:
+				gui.show_hint("Use A and D\nor arrow keys to move")
 	else:
 		Game.play_audio("boop1")
 
@@ -81,26 +82,12 @@ func _physics_process(delta):
 	if countdown > 0 or player_dead: return
 	
 	# move player
-	var x = Input.get_action_strength("right") - Input.get_action_strength("left")
-	var target_speed = 0
-	var accel = SIDE_ACCEL
-	if x > 0:
-		target_speed = MOVE_SPEED
-		if move_speed < 0:
-			accel *= 2
-	elif x < 0:
-		target_speed = -MOVE_SPEED
-		if move_speed > 0:
-			accel *= 2
-	player.move_thrusters(x)
-	move_speed = move_toward(move_speed, target_speed, accel * delta)
-	player.position.x += move_speed * delta
-	player.rotation = move_speed / MOVE_SPEED * PLAYER_ROT
+	player.move(delta)
 	if player.position.x < 0 or player.position.x > Game.CHUNK_WIDTH:
 		die()
 	
 	# fall speed
-	if Input.is_action_pressed("slow") and slow_time > 0:
+	if (Input.is_action_pressed("slow") or slowing_pressed_index >= 0) and slow_time > 0:
 		fall_speed = move_toward(fall_speed, normal_fall_speed * 0.25, VERT_DECEL_RATE * normal_fall_speed * delta)
 		slow_time -= delta
 		if slow_time < 0: slow_time = 0
@@ -149,7 +136,7 @@ func _physics_process(delta):
 func _unhandled_input(event):
 	if countdown > 0 or player_dead: return
 	if event.is_action_pressed("fire"):
-		if missiles > 0:
+		fire_missiles()
 #			var dir = Vector2.DOWN
 #			if Game.using_controller:
 #				var x = Input.get_joy_axis(Game.device, JOY_AXIS_0)
@@ -163,10 +150,6 @@ func _unhandled_input(event):
 #				dir = Vector2.DOWN
 			#for dir in player.choose_missile_dirs():
 			#	fire_missile(player.position, dir * MISSILE_SPEED, Game.missile_bounces, false)
-			fire_missile(player.position, Vector2(-1, 2).normalized() * MISSILE_SPEED, Game.missile_bounces, false)
-			fire_missile(player.position, Vector2(1, 2).normalized() * MISSILE_SPEED, Game.missile_bounces, false)
-			missiles -= 1
-			gui.update_missiles(missiles)
 			
 	if event is InputEventJoypadButton or (event is InputEventJoypadMotion and abs(event.axis_value) > 0.5):
 		Game.using_controller = true
@@ -175,6 +158,25 @@ func _unhandled_input(event):
 		Game.using_controller = false
 	elif event is InputEventMouseMotion:
 		time_since_mouse_move = 0
+		
+	elif event is InputEventScreenTouch:
+		if event.pressed:
+			#gui.show_hint(str(event.position) + " " + str(get_viewport().get_size_override()) + " " + str(get_viewport().size) )
+			if event.position.x < get_viewport().get_size_override().x / 2:
+				slowing_pressed_index = event.index
+			else:
+				fire_missiles()
+		else:
+			if event.index == slowing_pressed_index:
+				slowing_pressed_index = -1
+			
+			
+func fire_missiles():
+	if missiles > 0:
+		fire_missile(player.position, Vector2(-1, 2).normalized() * MISSILE_SPEED, Game.missile_bounces, false)
+		fire_missile(player.position, Vector2(1, 2).normalized() * MISSILE_SPEED, Game.missile_bounces, false)
+		missiles -= 1
+		gui.update_missiles(missiles)
 
 func fire_missile(pos, vel, bounces, is_bounce):
 	var missile = Game.Missile.instance()
@@ -186,13 +188,15 @@ func fire_missile(pos, vel, bounces, is_bounce):
 		Game.play_audio("fire")
 
 func missile_hit(pos, vel, bounces):
-	explode(pos, EXPLOSION_RADIUS, Color.orangered, Color.orange)
+	explode(pos, EXPLOSION_RADIUS, Color.orangered, Color.orange, 1)
 	if bounces > 0:
 		vel.x *= -1
 		bounces -= 1
 		call_deferred("fire_missile", pos, vel, bounces, true)
 
 func collect_powerup(type):
+	if Settings.misc_vibration:
+		Input.vibrate_handheld(50)
 	match type:
 		Game.PowerUpType.SLOW_TIME:
 			slow_time += 1
@@ -203,7 +207,10 @@ func collect_powerup(type):
 				slow_time = Game.slow_time + 1
 			gui.update_slow_time(slow_time, true)
 			if Game.first_run and not Game.collected_slow:
-				gui.show_hint("Hold Z to fire thrusters")
+				if OS.has_feature("mobile"):
+					gui.show_hint("Press left side of screen\nto fire thrusters")
+				else:
+					gui.show_hint("Hold Z to fire thrusters")
 				Game.collected_slow = true
 			Game.play_audio("powerup_slow")
 		Game.PowerUpType.MISSILE:
@@ -213,7 +220,10 @@ func collect_powerup(type):
 				call_deferred("fire_missile", player.position, Vector2.DOWN * MISSILE_SPEED, 0, false)
 			gui.update_missiles(missiles)
 			if Game.first_run and not Game.collected_missile:
-				gui.show_hint("Press C to launch missiles")
+				if OS.has_feature("mobile"):
+					gui.show_hint("Tap right side of screen\nto launch missiles")
+				else:
+					gui.show_hint("Press C to launch missiles")
 				Game.collected_missile = true
 			Game.play_audio("powerup_missile")
 		Game.PowerUpType.SHIELD:
@@ -229,7 +239,7 @@ func collect_powerup(type):
 			gui.update_multiplier(gold_multiplier)
 			Game.play_audio("powerup_gold")
 
-func explode(pos, radius, color1, color2):
+func explode(pos, radius, color1, color2, vibrate = 0):
 	for chunk in chunks.get_children():
 		if pos.y - radius < chunk.position.y + Game.CHUNK_HEIGHT and pos.y + radius > chunk.position.y:
 			chunk.explode(pos, radius)
@@ -237,6 +247,11 @@ func explode(pos, radius, color1, color2):
 	chunks.get_children().back().add_child(explosion)
 	explosion.init(pos, radius, color1, color2)
 	Game.play_audio("explode")
+	if Settings.misc_vibration:
+		if vibrate == 2:
+			Input.vibrate_handheld(500)
+		elif vibrate == 1:
+			Input.vibrate_handheld(100)
 
 func generate_chunk():
 	# handle width
@@ -270,14 +285,14 @@ func generate_chunk():
 	chunks.add_child(chunk)
 	chunk.position = Vector2(Game.CHUNK_X_OFFSET, y)
 	chunk.init(center, width, next_width, chunk_depth, texture)
-	if chunks_since_texture_change < Game.TRANSITION_CHUNKS and new_texture != null:
+	if chunks_since_texture_change < transition_chunks and new_texture != null:
 		var chunk2 = chunk.duplicate()
 		chunks.add_child(chunk2)
 		chunk2.position = chunk.position
 		chunk2.chunk_depth = chunk.chunk_depth
-		chunk2.transition_layer(new_texture, chunks_since_texture_change / float(Game.TRANSITION_CHUNKS))
+		chunk2.transition_layer(new_texture, chunks_since_texture_change / float(transition_chunks))
 		chunks_since_texture_change += 1
-		if chunks_since_texture_change == Game.TRANSITION_CHUNKS:
+		if chunks_since_texture_change == transition_chunks:
 			texture = new_texture
 			new_texture = null
 		
@@ -292,7 +307,10 @@ func generate_chunk():
 	
 	# texture
 	if next_texture < TEXTURES.size() and chunk_depth / Game.PIXELS_PER_DEPTH_UNIT >= TEXTURES[next_texture][0]:
-		new_texture = TEXTURES[next_texture][1]
+		if OS.has_feature("mobile") and transition_chunks == 0:
+			texture = TEXTURES[next_texture][1]
+		else:
+			new_texture = TEXTURES[next_texture][1]
 		var new_color = TEXTURES[next_texture][2]
 		$Backdrop/Tween.remove_all()
 		$Backdrop/Tween.interpolate_property($Backdrop/ColorRect, "color", $Backdrop/ColorRect.color, new_color, Game.TRANSITION_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN, 5)
@@ -313,10 +331,10 @@ func generate_chunk():
 		var options = Game.powerups.duplicate()
 		if chunk_depth > 1000 * Game.PIXELS_PER_DEPTH_UNIT and chunks_since_gold_powerup > 100:
 			options[Game.PowerUpType.GOLD_MULT] += 10 + (chunks_since_gold_powerup - 100) / 10
-		print(chunks_since_gold_powerup, options)
+		print("GOLD ", chunks_since_gold_powerup, options)
 		powerup_type = Game.rand_weighted(options)
 		if powerup_type == Game.PowerUpType.GOLD_MULT:
-			print("got it")
+			print("got the gold")
 			chunks_since_gold_powerup = 0
 	if powerup_type >= 0:
 		var powerup = Game.PowerUp.instance()
@@ -334,7 +352,7 @@ func _on_Player_area_entered(area):
 		fall_speed = 0
 		immunity = 0.25
 		slow_time = min(slow_time + 0.5, Game.slow_time + 1)
-		explode(player.global_position, SHIELD_EXPLOSION_RADIUS, Color.cyan, Color.dodgerblue)
+		explode(player.global_position, SHIELD_EXPLOSION_RADIUS, Color.cyan, Color.dodgerblue, 2)
 		gui.update_shields(shields)
 		gui.update_slow_time(slow_time, true)
 		player.shield(shields > 0)
@@ -358,8 +376,13 @@ func die():
 	
 
 func _on_SpeedUpTimer_timeout():
-	normal_fall_speed = floor(Game.FALL_SPEED_START + player_depth / Game.PIXELS_PER_DEPTH_UNIT * 0.75)
+	normal_fall_speed = floor(Game.FALL_SPEED_START + player_depth / Game.PIXELS_PER_DEPTH_UNIT * 0.5)
 	if normal_fall_speed > Game.FALL_SPEED_MAX:
 		normal_fall_speed = Game.FALL_SPEED_MAX
 		$SpeedUpTimer.stop()
+	print("fall speed = ", normal_fall_speed)
 
+
+
+func _on_TouchScreenButton_pressed():
+	gui.show_hint("FIRE!")

@@ -7,6 +7,7 @@ const CHUNK_MARGINS = 50
 const CHUNK_X_OFFSET = -(CHUNK_WIDTH - SCREEN_WIDTH) / 2
 const CHANGE_INTERVAL = 50
 const TRANSITION_CHUNKS = 10
+const TRANSITION_CHUNKS_MOBILE = 3
 const TRANSITION_TIME = 10
 const CENTER_CHANGE_VARIANCE = 25
 const WIDTH_NOISE_VARIANCE = 25
@@ -128,7 +129,14 @@ func load_game():
 				if field in data:
 					set(field, data[field])
 		file.close()
-	
+
+func reset_save():
+	first_run = true
+	for field in SAVE_FIELDS:
+		if field != "first_run":
+			set(field, 0)
+	save_game()
+
 func rand_weighted(options):
 	var total_weight = 0
 	for option in options:
